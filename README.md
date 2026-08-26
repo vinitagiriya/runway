@@ -8,7 +8,6 @@ A full-stack application that tracks real, live startup data from Y Combinator's
 Python Scraper  →  PostgreSQL (Neon)  →  Node.js/Express API  →  React Dashboard
 (real YC data)      (data storage)         (serves data)           (what you see)
 ```
-
 ## Folder structure
 
 ```
@@ -30,6 +29,12 @@ funding-tracker-v2/
 │   └── ...
 └── README.md
 ```
+## Features
+🔴 Live data — scraped directly from YC's India directory, not a hardcoded list
+🔍 Search & filter — by company name, sector, city, and hiring status
+🏢 Company detail pages — batch, status, employee count, location, YC page, LinkedIn
+📊 Dashboard stats — total companies tracked, currently hiring, cities covered
+🕒 Freshness indicator — shows when data was last refreshed
 
 ## Setup — step by step
 
@@ -66,12 +71,13 @@ npm run dev
 ```
 Visit the URL it gives you (usually `http://localhost:5173`).
 
-## Tech stack
-
-- **Python** (requests, BeautifulSoup, psycopg2) — scraping + writing to Postgres
-- **PostgreSQL** (hosted on Neon) — data storage
-- **Node.js + Express** — REST API
-- **React** (Vite) — frontend dashboard
+## Tech Stack
+Layer	Technology
+Frontend →	React + Vite, React Router
+Backend	 → Node.js, Express
+Database → PostgreSQL (Neon, serverless)
+Scraper	 → Python, Playwright, BeautifulSoup
+Hosting	 → Render (frontend + backend)
 
 ## Deployment (when ready)
 
@@ -81,4 +87,4 @@ Visit the URL it gives you (usually `http://localhost:5173`).
 
 ## Author
 
-Vinita Giriya — Data Engineer (Python, SQL, PySpark, DBT, Databricks)
+Vinita Giriya
