@@ -1,90 +1,95 @@
-# Runway — Startup Funding & Hiring Tracker (Full-Stack)
+# Runway — Live YC India Funding & Hiring Tracker
 
-A full-stack application that tracks real, live startup data from Y Combinator's India directory — built to help job seekers find actively-hiring, well-funded companies.
+**Live site:** https://runway-frontend-wxzq.onrender.com
+**Backend API:** https://runway-backend-gn6u.onrender.com
 
-## Architecture
+Runway tracks Y Combinator–backed startups in India — funding batch, hiring status, sector, and location — pulled directly from YC's live directory rather than a static, manually-updated list.
 
-```
-Python Scraper  →  PostgreSQL (Neon)  →  Node.js/Express API  →  React Dashboard
-(real YC data)      (data storage)         (serves data)           (what you see)
-```
-## Folder structure
+> Built out of my own year-long job hunt, to make it easier to find which YC-backed companies in India are actively hiring.
 
-```
-funding-tracker-v2/
-├── backend/          → Node.js + Express API
-│   ├── server.js
-│   ├── db.js
-│   ├── routes/companies.js
-│   ├── schema.sql
-│   └── .env.example
-├── scraper/           → Python scraper
-│   ├── scraper.py
-│   ├── inspect_page.py
-│   ├── requirements.txt
-│   └── .env.example
-├── frontend/           → React app
-│   ├── src/App.jsx
-│   ├── src/App.css
-│   └── ...
-└── README.md
-```
+---
+
+## Screenshots
+
+<!-- Add screenshots below. Drag & drop images here in the GitHub editor, or place them in a /screenshots folder and reference them like this: -->
+<!-- ![Home page](screenshots/home.png) -->
+<!-- ![Company detail page](screenshots/detail.png) -->
+
+---
+
 ## Features
-🔴 Live data — scraped directly from YC's India directory, not a hardcoded list
-🔍 Search & filter — by company name, sector, city, and hiring status
-🏢 Company detail pages — batch, status, employee count, location, YC page, LinkedIn
-📊 Dashboard stats — total companies tracked, currently hiring, cities covered
-🕒 Freshness indicator — shows when data was last refreshed
 
-## Setup — step by step
+- 🔴 **Live data** — scraped directly from YC's India directory, not a hardcoded list
+- 🔍 **Search & filter** — by company name, sector, city, and hiring status
+- 🏢 **Company detail pages** — batch, status, employee count, location, YC page, LinkedIn
+- 📊 **Dashboard stats** — total companies tracked, currently hiring, cities covered
+- 🕒 **Freshness indicator** — shows when data was last refreshed
 
-### 1. Create the database (Neon)
-- Sign up at neon.tech, create a project
-- Copy your connection string
-- Open the SQL Editor in Neon and run everything in `backend/schema.sql`
+---
 
-### 2. Set up the scraper
-```bash
-cd scraper
-pip install -r requirements.txt
-cp .env.example .env
-# paste your Neon connection string into .env
-python scraper.py
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | React + Vite, React Router |
+| Backend | Node.js, Express |
+| Database | PostgreSQL (Neon, serverless) |
+| Scraper | Python, Playwright, BeautifulSoup |
+| Hosting | Render (frontend + backend) |
+
+---
+
+## How it works
+
+1. **`scraper/scraper.py`** launches a headless browser (Playwright) and scrolls through YC's India company pages — hiring, location, and industry categories — since the listings load via infinite scroll.
+2. Company data (name, batch, status, sector, location, employee count) is parsed from each listing, then each company's YC page is visited to grab its LinkedIn link.
+3. Everything is upserted into a PostgreSQL database (Neon). Companies no longer on YC's live list are removed automatically.
+4. The **Express backend** (`backend/`) exposes a simple REST API (`/api/companies`) with search and filter query params.
+5. The **React frontend** (`frontend/`) fetches from that API and renders the dashboard, ticker, and detail pages.
+
+---
+
+## Project Structure
+
 ```
-If it doesn't find companies correctly, run `python inspect_page.py` first to see the page's actual text structure, then adjust the pattern in `scraper.py`.
+runway/
+├── backend/       # Express API + Postgres connection
+├── frontend/      # React + Vite dashboard
+├── scraper/       # Python/Playwright scraper
+└── schema.sql     # Database schema
+```
 
-### 3. Set up the backend
+---
+
+## Running locally
+
+**Backend**
 ```bash
 cd backend
 npm install
-cp .env.example .env
-# paste the same Neon connection string into .env
+# create a .env file with DATABASE_URL (see .env.example)
 npm start
 ```
-Visit `http://localhost:5000` — you should see "Funding Tracker API is running."
 
-### 4. Set up the frontend
+**Frontend**
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-Visit the URL it gives you (usually `http://localhost:5173`).
 
-## Tech Stack
-Layer	Technology
-Frontend →	React + Vite, React Router
-Backend	 → Node.js, Express
-Database → PostgreSQL (Neon, serverless)
-Scraper	 → Python, Playwright, BeautifulSoup
-Hosting	 → Render (frontend + backend)
+**Scraper**
+```bash
+cd scraper
+pip install -r requirements.txt
+playwright install chromium
+# create a .env file with DATABASE_URL (see .env.example)
+python scraper.py
+```
 
-## Deployment (when ready)
-
-- Frontend → Vercel or Netlify
-- Backend → Render or Railway
-- Database → already on Neon (no change needed)
+---
 
 ## Author
 
-Vinita Giriya
+**Vinita Giriya**
+[GitHub](https://github.com/vinitagiriya) · [LinkedIn](https://www.linkedin.com/in/vinita-giriya-533933278)
