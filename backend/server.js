@@ -15,7 +15,7 @@ const companiesRouter = require("./routes/companies");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());      // isse React (alag port pe chalta hai) is server se baat kar sake
+app.use(cors({ origin: "https://runway-frontend-wxzq.onrender.com" }));     // isse React (alag port pe chalta hai) is server se baat kar sake
 app.use(express.json());
 
 // Jab koi /api/companies pe request bheje, companiesRouter usse handle karega
