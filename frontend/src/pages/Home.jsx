@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 
 // Jab backend local pe chal raha ho, ye URL use hogi.
 // Jab backend deploy (Render pe live) ho jaye, isse us live URL se replace karna hoga.
-const API_URL = "http://localhost:5000/api/companies";
+const API_URL = "https://runway-backend-gn6u.onrender.com/api/companies";
 
 function Home() {
   // ---- STATE ----

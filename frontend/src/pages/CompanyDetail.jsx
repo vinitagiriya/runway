@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Footer from "../components/Footer";
 
-const API_URL = "http://localhost:5000/api/companies";
+const API_URL = "https://runway-backend-gn6u.onrender.com/api/companies";
 
 function CompanyDetail() {
   // useParams() se hume URL ka wo hissa milta hai jo humne route me
