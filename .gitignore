@@ -1,0 +1,19 @@
+# Dependencies — never commit node_modules
+node_modules/
+**/node_modules/
+
+# Secrets — never commit environment files
+.env
+**/.env
+.env.*
+**/.env.*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Editor / OS
+.vscode/
+.DS_Store
